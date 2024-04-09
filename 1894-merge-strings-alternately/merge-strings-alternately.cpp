@@ -1,37 +1,24 @@
 class Solution {
 public:
     string mergeAlternately(string word1, string word2) {
+        //Or we can also take both lengths as n and m, then run them using single loop
         string ans;
+        int n=word1.size(), m=word2.size();
         int len;
-        if(word1.length()>word2.length())
+        if(n>m)
         {
-            len= word1.length();
+            len=n;
         }
-        else
+        else len=m;
+        for(int i=0;i<len;i++)
         {
-               len= word2.length();
-        }
-        int i=0;
-        while(i<word1.size() && i<word2.size())
-        {
-            ans+=word1[i];
-            ans+=word2[i];
-            i++;
-        }
-        if(i==word1.size())
-        {
-            while(i<word2.size())
-            {
-                ans+=word2[i];
-                i++;
-            }
-        }
-        else if(i==word2.size())
-        {
-            while(i<word1.size())
+            if(i<word1.size())
             {
                 ans+=word1[i];
-                i++;
+            }
+            if(i<word2.size())
+            {
+                ans+=word2[i];
             }
         }
         return ans;
