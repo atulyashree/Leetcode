@@ -13,8 +13,8 @@ public:
             }
             else//if right half is sorted taking the min and then going to other half for check
             {
-                ans=min(ans,nums[low]);
-                high=mid;
+                ans=min(ans,nums[mid]);
+                high=mid-1;
             }
         }
         return ans;
