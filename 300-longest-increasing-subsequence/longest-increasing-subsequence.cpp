@@ -1,23 +1,20 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        //this solution we are moving in the opposite direction unlike the other questions
-        int n = nums.size();
-        vector<vector<int>> dp(n+1, vector<int>(n+1,0));
-        for(int idx=n-1;idx>=0;idx--)//since we move from n-1 to 0
+        int n= nums.size();
+        int maxi=1;
+        vector<int> dp(n,1);//since by default all will have max len of 1 for thr increasing subsequence
+        for(int idx=0;idx<n;idx++)//moving 0 to n-1
         {
-            for(int prev=idx-1;prev>=-1;prev--)//since we move from n-2 to -1
+            for(int prev=0;prev<=idx-1;prev++)//moving 0 to idx-1
             {
-                int notTake = 0 + dp[idx+1][prev+1];//doing the coordinate shift for prev
-                int take=0;
-                if(prev==-1 || nums[idx]>nums[prev])
+                if(nums[prev]<nums[idx])
                 {
-                    take = 1 + dp[idx+1][idx+1];//doing the coordinate shift for prev
+                    dp[idx]=max(dp[idx], 1+dp[prev]);//adding the length if any previous smaller element has more length than current length
                 }
-                dp[idx][prev+1]= max(take, notTake);
             }
+            maxi=max(dp[idx],maxi);//taking maximum length from the lengths stored till now
         }
-        return dp[0][-1+1];//necessary co ord shift
+        return maxi;
     }
-
 };
