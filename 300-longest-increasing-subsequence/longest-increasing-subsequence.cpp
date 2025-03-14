@@ -1,28 +1,23 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        //we will run the recursion on the current idx and prev idx
-        int idx=0, prev=-1;
-        vector<vector<int>> dp(nums.size(), vector<int> (nums.size(),-1));
-        int length=solve(idx, prev, nums, dp);
-        return length;
+        //this solution we are moving in the opposite direction unlike the other questions
+        int n = nums.size();
+        vector<vector<int>> dp(n+1, vector<int>(n+1,0));
+        for(int idx=n-1;idx>=0;idx--)//since we move from n-1 to 0
+        {
+            for(int prev=idx-1;prev>=-1;prev--)//since we move from n-2 to -1
+            {
+                int notTake = 0 + dp[idx+1][prev+1];//doing the coordinate shift for prev
+                int take=0;
+                if(prev==-1 || nums[idx]>nums[prev])
+                {
+                    take = 1 + dp[idx+1][idx+1];//doing the coordinate shift for prev
+                }
+                dp[idx][prev+1]= max(take, notTake);
+            }
+        }
+        return dp[0][-1+1];//necessary co ord shift
     }
-    int solve(int idx, int prev, vector<int>& nums, vector<vector<int>> &dp)
-    {
-        if(idx==nums.size())
-        {
-            return 0;
-        }
-        if(dp[idx][prev+1]!= -1)
-        {
-            return dp[idx][prev+1];
-        }
-        int notTake= 0 + solve(idx+1, prev, nums, dp);
-        int take=0;
-        if(prev == -1 || nums[prev]<nums[idx])
-        {
-            take= 1 + solve(idx+1, idx, nums, dp);
-        }
-        return dp[idx][prev+1]=max(take, notTake);
-    }
+
 };
