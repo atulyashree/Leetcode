@@ -1,20 +1,24 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        int n= nums.size();
-        int maxi=1;
-        vector<int> dp(n,1);//since by default all will have max len of 1 for thr increasing subsequence
-        for(int idx=0;idx<n;idx++)//moving 0 to n-1
+        //this is using binary search, here we keep replacing the lower bound elemnt as 
+        //soon as another element found less than the largest till now, otherwise add it to the tempo, hence we get the final length of the tempo as the 
+        //the longest increasing subsequence although the elements stored in the tempo are not representing the LIS.
+        vector<int> tempo;
+        tempo.push_back(nums[0]);
+        for(int i=1;i<nums.size();i++)
         {
-            for(int prev=0;prev<=idx-1;prev++)//moving 0 to idx-1
+            if(nums[i]>tempo.back())//if element is greater than the last element of temp found add it
             {
-                if(nums[prev]<nums[idx])
-                {
-                    dp[idx]=max(dp[idx], 1+dp[prev]);//adding the length if any previous smaller element has more length than current length
-                }
+                tempo.push_back(nums[i]);
             }
-            maxi=max(dp[idx],maxi);//taking maximum length from the lengths stored till now
+            else//otherwise find lower bound element to replace it, since the tempo is sorted.
+            {
+                auto it=lower_bound(tempo.begin(), tempo.end(), nums[i]);//it returns the iterator of the lower bound of the element, i.e. first element>=nums[i]
+                int idx=distance(tempo.begin(), it);//converting the iterator into index
+                tempo[idx]=nums[i];
+            }
         }
-        return maxi;
+        return tempo.size();
     }
 };
