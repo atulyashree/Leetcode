@@ -41,7 +41,7 @@ public:
                     int nrow=r+delrow;
                     int ncol=c+delcol;
                     
-                    if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' &&vis[nrow][ncol]==0 && delrow!=delcol)//adding the last condition since digonal elements not considered int neighbours
+                    if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' &&vis[nrow][ncol]==0 && abs(delrow)!=abs(delcol))//adding the last condition since digonal elements not considered int neighbours
                     {
                         if(nrow==r || ncol==c)// adding this since here diagonal elements are not considered aren't considered neighb, for 1 island
                         {
