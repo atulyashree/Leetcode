@@ -3,14 +3,17 @@ public:
     vector<int> twoSum(vector<int>& nums, int target) {
         vector<int> ans;
         unordered_map<int,int> umap;
-
-        for(int i=0;i<nums.size();i++){
-            if(umap.find(target-nums[i])!=umap.end())//if target-nums[i] is found in the map
+        for(int i=0;i<nums.size();i++)
+        {
+            if(umap.find(target - nums[i])!=umap.end())
             {
-                ans.push_back(i);//pushing the index
-                ans.push_back(umap[target-nums[i]]);//pushing the value of the key found in map
+                ans.push_back(umap[target-nums[i]]);
+                ans.push_back(i);
             }
-            umap[nums[i]]=i;//storing value at nums[i] along with its index
+            else
+            {
+                umap[nums[i]]=i;
+            }
         }
         return ans;
     }
